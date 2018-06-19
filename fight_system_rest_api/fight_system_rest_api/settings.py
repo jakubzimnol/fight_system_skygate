@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'heroes.apps.HeroesConfig',    
+    'heroes.apps.HeroesConfig', 
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [

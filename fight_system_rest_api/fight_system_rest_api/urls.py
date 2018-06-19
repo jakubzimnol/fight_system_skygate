@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from heroes import views
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
-     url(r'^heroes/$', views.HeroesList.as_view()),
+    url(r'^$', schema_view),
+    url(r'^heroes/$', views.HeroesList.as_view()),
     url(r'^heroes/(?P<pk>[0-9]+)/$', views.HeroesDetail.as_view()),
     url(r'^heroes/humanoids$', views.HumanoidsList.as_view()),
     url(r'^heroes/big_plants$', views.Big_plantsList.as_view()),
