@@ -24,8 +24,6 @@ urlpatterns = [
     url(r'^$', schema_view),
     url(r'^heroes/$', views.HeroesList.as_view()),
     url(r'^heroes/(?P<pk>[0-9]+)/$', views.HeroesDetail.as_view()),
-    url(r'^heroes/humanoids$', views.HumanoidsList.as_view()),
-    url(r'^heroes/big_plants$', views.Big_plantsList.as_view()),
-]
+    ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

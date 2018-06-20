@@ -13,9 +13,9 @@ class HeroesSerializer(serializers.ModelSerializer):
         model = Hero
         fields = ('id', 'name', 'created', 'kind', 'group', 'breed', 'dead', 'date_of_dead') 
           
-class FightSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Battle 
-        fields = ('fighter1', 'fighter2', 'winner_id') 
+#class FightSerializer(serializers.ModelSerializer):
+    #class Meta:
+        #model = Battle 
+        #fields = ('fighter1', 'fighter2', 'winner_id') 
 
          

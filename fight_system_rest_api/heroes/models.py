@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime  
+from django.db.models import Q
 
    
 class Hero(models.Model):
@@ -33,7 +34,8 @@ class Hero(models.Model):
             ('RD','Red dragon'),
             ('BD','Black dragon'),  
             ('E','Ent'),
-            ('T','Treebeard'),            
+            ('T','Treebeard'),    
+            ('LI','Lion'),        
         )       
     name = models.CharField(max_length=25, blank=True, default='')
     created = models.DateTimeField(auto_now_add=True)
@@ -47,6 +49,14 @@ class Hero(models.Model):
         self.dead = True
         self.date_of_dead = datetime.now()
         
+    def get_wins_number(self ):
+        wining_battles = Battle.objects.filter(winner_id = self.id)
+        return wining_battles.count()        
+        
+    def get_defeats_number(self ):
+        losing_battles = Battle.objects.filter( Q( Q(fighter1 = self.id) | Q(fighter2 = self.id)) & ~Q(winner_id=self.id))
+        return losing_battles.count()
+    
 
 class Battle(models.Model):
     created = models.DateTimeField(auto_now_add=True)
