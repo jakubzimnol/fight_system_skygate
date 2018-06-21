@@ -58,13 +58,13 @@ class Hero(models.Model):
         return losing_battles.count()
 
 class HeroRank(models.Model):
-    name = models.CharField(max_length=25, blank=True, default='') #models.ForeignKey(Hero, related_name='hero',  null=True, on_delete=models.SET_NULL)
+    hero = models.ForeignKey(Hero, related_name='hero',  null=True, on_delete=models.SET_NULL)
     #name = models.CharField(max_length=25, blank=True, default='')
     wins = models.BigIntegerField(default=0)
     defeats = models.BigIntegerField(default=0)
     #def __init__(self, hero, name, wins):
-    def initialize(self, name, wins, defeats):
-        self.name = name
+    def initialize(self, hero, wins, defeats):
+        self.hero = hero
         self.wins = wins
         self.defeats = defeats
     class Meta:

@@ -12,7 +12,12 @@ class HeroesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hero
         fields = ('id', 'name', 'created', 'kind', 'group', 'breed', 'dead', 'date_of_death') 
-          
+        
+class HeroesSerializerShort(serializers.ModelSerializer):
+    class Meta:
+        model = Hero
+        fields = ('id', 'name', 'created', 'kind', 'group', 'breed' )         
+      
 #class FightSerializer(serializers.ModelSerializer):
     #class Meta:
         #model = Battle 
@@ -26,4 +31,4 @@ class BattleSerializer(serializers.ModelSerializer):
 class HeroesRankSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroRank
-        fields = ('id', 'name', 'wins', 'defeats') 
+        fields = ('id', 'hero_id', 'hero_name','wins', 'defeats') 
