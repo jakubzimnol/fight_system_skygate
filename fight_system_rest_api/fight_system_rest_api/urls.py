@@ -23,13 +23,16 @@ schema_view = get_swagger_view(title='Pastebin API')
 urlpatterns = [
     url(r'^$', schema_view),
     url(r'^heroes/$', views.HeroesList.as_view()),
-    #url(r'^heroes/list$', views.HeroesList.as_view()),
     url(r'^heroes/(?P<pk>[0-9]+)/$', views.HeroesDetail.as_view()),
     url(r'^heroes/ranking/$', views.HeroesRanking.as_view()),
     url(r'^heroes/deads/$', views.HeroesDeads.as_view()),
+    url(r'^heroes/kill/(?P<pk>[0-9]+)/$', views.HeroesKill.as_view()),
     url(r'^battles/$', views.BattleList.as_view()),
     url(r'^battles/(?P<pk>[0-9]+)/$', views.BattleDetail.as_view()),
     url(r'^battles/random/$', views.BattleRandom.as_view()),
+    
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
     ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

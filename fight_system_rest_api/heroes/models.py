@@ -1,7 +1,9 @@
 from django.db import models
 from datetime import datetime  
 from django.db.models import Q
-
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
    
 class Hero(models.Model):
     HEROES_KINDS = (
@@ -56,7 +58,7 @@ class Hero(models.Model):
     def get_defeats_number(self ):
         losing_battles = Battle.objects.filter( Q( Q(fighter1 = self.id) | Q(fighter2 = self.id)) & ~Q(winner_id=self.id))
         return losing_battles.count()
-    
+        
     def __str__(self):
         return 'name = %s id = %s' % (self.name, self.id)  
 
@@ -65,7 +67,7 @@ class HeroRank(models.Model):
     name = models.CharField(max_length=25, blank=True, default='')
     wins = models.BigIntegerField(default=0)
     defeats = models.BigIntegerField(default=0)
-    #def __init__(self, hero, name, wins):
+
     def initialize(self, hero, name, wins, defeats):
         self.hero = hero
         self.name = name
@@ -101,9 +103,9 @@ class DeadHero(models.Model):
 class Battle(models.Model):
     
     created = models.DateTimeField(auto_now_add=True)
-    fighter1 = models.ForeignKey(Hero, related_name='fighter1', on_delete=models.CASCADE) #null=True, on_delete=models.SET_NULL,
+    fighter1 = models.ForeignKey(Hero, related_name='fighter1', on_delete=models.CASCADE) 
     fighter2 = models.ForeignKey(Hero, related_name='fighter2', on_delete=models.CASCADE)
-    winner_id = models.ForeignKey(Hero, related_name='winner',  on_delete=models.CASCADE)
-    
+    winner_id = models.ForeignKey(Hero, related_name='winner', on_delete=models.CASCADE, null=True)
+   
     def __str__(self):
-        return 'id = %s winner = %s' % (self.id, self.winner_id.name)    
+        return 'id = %s fighter1 = %s' % (self.id, self.fighter1.name)    
