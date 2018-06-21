@@ -92,14 +92,14 @@ class BattleRandom(generics.CreateAPIView):
         for i in range( num ):
             for j in range( num ):
                 
-                if battles_list.filter( Q(Q(fighter1=heroes_list[i]) & Q(fighter2=heroes_list[j])) | Q(Q(fighter1=heroes_list[j]) & Q(fighter2=heroes_list[i])) ).count()==0 & heroes_list[j].group == heroes_list[i].group:
+                if battles_list.filter( Q(Q(fighter1=heroes_list[i]) & Q(fighter2=heroes_list[j])) | Q(Q(fighter1=heroes_list[j]) & Q(fighter2=heroes_list[i])) ).count()==0 & heroes_list[j].kind == heroes_list[i].kind:
                     heroes_oponents.append(heroes_list[j])
                     
             if heroes_oponents.count()>=0:
                 hero_oponents_list.append(heroes_oponents)     
                 
         #for i in range( num ):
-            #heroes_oponents =   heroes_list.filter(  Q(battles_list.filter( Q(Q(fighter1=heroes_list[i]) & Q(fighter2=F(id))) | Q(Q(fighter1=F(id)) & Q(fighter2=heroes_list[i])) )).count()=0  )
+            #heroes_oponents =   heroes_list.filter(  Q(battles_list.filter( Q(Q(fighter1=heroes_list[i]) & Q(fighter2=F('id'))) | Q(Q(fighter1=F('id')) & Q(fighter2=heroes_list[i])) )).count()=0  )
             #if heroes_oponents.count()>=0:
                 #hero_oponents_list.append(heroes_oponents)
         

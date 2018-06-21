@@ -56,6 +56,9 @@ class Hero(models.Model):
     def get_defeats_number(self ):
         losing_battles = Battle.objects.filter( Q( Q(fighter1 = self.id) | Q(fighter2 = self.id)) & ~Q(winner_id=self.id))
         return losing_battles.count()
+    
+    def __str__(self):
+        return 'name = %s id = %s' % (self.name, self.id)  
 
 class HeroRank(models.Model):
     hero = models.ForeignKey(Hero, related_name='hero',  null=True, on_delete=models.SET_NULL)
@@ -67,6 +70,10 @@ class HeroRank(models.Model):
         self.hero = hero
         self.wins = wins
         self.defeats = defeats
+        
+    def __str__(self):
+        return 'hero name = %s wins = %s' % (self.hero.name, self.wins) 
+    
     class Meta:
         managed = False
 
@@ -77,3 +84,6 @@ class Battle(models.Model):
     fighter1 = models.ForeignKey(Hero, related_name='fighter1', on_delete=models.CASCADE) #null=True, on_delete=models.SET_NULL,
     fighter2 = models.ForeignKey(Hero, related_name='fighter2', on_delete=models.CASCADE)
     winner_id = models.ForeignKey(Hero, related_name='winner',  on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return 'id = %s winner = %s' % (self.id, self.winner_id.name)    

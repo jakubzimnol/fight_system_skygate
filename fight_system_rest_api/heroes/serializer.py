@@ -31,4 +31,4 @@ class BattleSerializer(serializers.ModelSerializer):
 class HeroesRankSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroRank
-        fields = ('id', 'hero_id', 'hero_name','wins', 'defeats') 
+        fields = ('id', 'hero', 'wins', 'defeats') 
