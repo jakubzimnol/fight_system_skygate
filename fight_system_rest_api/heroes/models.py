@@ -62,12 +62,13 @@ class Hero(models.Model):
 
 class HeroRank(models.Model):
     hero = models.ForeignKey(Hero, related_name='hero',  null=True, on_delete=models.SET_NULL)
-    #name = models.CharField(max_length=25, blank=True, default='')
+    name = models.CharField(max_length=25, blank=True, default='')
     wins = models.BigIntegerField(default=0)
     defeats = models.BigIntegerField(default=0)
     #def __init__(self, hero, name, wins):
-    def initialize(self, hero, wins, defeats):
+    def initialize(self, hero, name, wins, defeats):
         self.hero = hero
+        self.name = name
         self.wins = wins
         self.defeats = defeats
         
@@ -76,7 +77,26 @@ class HeroRank(models.Model):
     
     class Meta:
         managed = False
-
+        
+class DeadHero(models.Model):
+    
+    hero_id = models.ForeignKey(Hero, related_name='hero_id',  null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=25, blank=True, default='')
+    date_of_death  = models.DateTimeField(auto_now_add=False, null=True)
+    wins = models.BigIntegerField(default=0)
+    
+    def initialize(self, dead_hero_id, name, date_of_death, wins):
+        self.hero_id = dead_hero_id
+        self.name = name
+        self.wins = wins
+        self.date_of_death = date_of_death    
+        
+    def __str__(self):
+        return 'hero name = %s wins = %s' % (self.hero.name, self.wins) 
+    
+    class Meta:
+        managed = False    
+    
 
 class Battle(models.Model):
     

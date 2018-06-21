@@ -1,4 +1,4 @@
-from heroes.models import Hero, HeroRank, Battle
+from heroes.models import Hero, HeroRank, Battle, DeadHero
 import heroes.serializer #import 
 from rest_framework import generics
 from django.db.models import Q
@@ -19,13 +19,6 @@ class HeroesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hero.objects.all() 
     serializer_class = heroes.serializer.HeroesSerializer
         
-#class HeoresKill(generics.UpdateView):
-    ##model = Hero
-    ##fields = ['name']
-    ##template_name_suffix = '_update_form'
-    #queryset = Hero.objects.all() 
-    #serializer_class = heroes.serializer.HeroesSerializer    
-    #self.kill()
         
 class HeroesRanking(generics.ListAPIView):
 
@@ -37,7 +30,7 @@ class HeroesRanking(generics.ListAPIView):
         for i in range( num ):
             herorank = HeroRank()
             hero_id = heroes_list[i]
-            herorank.initialize( hero_id, hero_id.get_wins_number(), hero_id.get_defeats_number() ) #battles_list.filter(winner_id = hero_id).count(), battles_list.filter( Q( Q(fighter1 = hero_id) | Q(fighter2 = hero_id)) & ~Q(winner_id=hero_id)).count() )
+            herorank.initialize( hero_id, hero_id.name, hero_id.get_wins_number(), hero_id.get_defeats_number() ) #battles_list.filter(winner_id = hero_id).count(), battles_list.filter( Q( Q(fighter1 = hero_id) | Q(fighter2 = hero_id)) & ~Q(winner_id=hero_id)).count() )
             result.append(herorank ) 
         result.sort(key=lambda herorank: herorank.wins, reverse=True)
         return result#sorted(result, key=lambda herorank: herorank.wins )
@@ -53,22 +46,21 @@ class HeroesRanking(generics.ListAPIView):
         #context['defeats'] = self.get_defeats_number()
         #return context ## Performing Extra Work    
        
-class DeadsHeroes(generics.ListAPIView):
+class HeroesDeads(generics.ListAPIView):
 
     def get_queryset(self ):
         heroes_list = Hero.objects.all().filter(dead =True)
-        #battles_list = Battle.objects.all()
         result = []
         num = heroes_list.count()
         for i in range( num ):
-            herorank = HeroRank()
             hero_id = heroes_list[i]
-            herorank.initialize( hero_id, hero_id.get_wins_number(), hero_id.get_defeats_number() ) #battles_list.filter(winner_id = hero_id).count(), battles_list.filter( Q( Q(fighter1 = hero_id) | Q(fighter2 = hero_id)) & ~Q(winner_id=hero_id)).count() )
-            result.append(herorank ) 
-        result.sort(key=lambda herorank: herorank.wins, reverse=True)
-        return result#sorted(result, key=lambda herorank: herorank.wins )
+            deadhero=DeadHero()
+            deadhero.initialize( hero_id, hero_id.name, hero_id.date_of_death, hero_id.get_wins_number() )
+            result.append(deadhero ) 
+        result.sort(key=lambda deadhero: DeadHero.wins, reverse=True)
+        return result
     
-    serializer_class = heroes.serializer.HeroesRankSerializer       
+    serializer_class = heroes.serializer.DeadHeroesSerializer       
        
 
 class BattleList(generics.ListAPIView):

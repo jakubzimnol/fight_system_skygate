@@ -26,6 +26,7 @@ urlpatterns = [
     #url(r'^heroes/list$', views.HeroesList.as_view()),
     url(r'^heroes/(?P<pk>[0-9]+)/$', views.HeroesDetail.as_view()),
     url(r'^heroes/ranking/$', views.HeroesRanking.as_view()),
+    url(r'^heroes/deads/$', views.HeroesDeads.as_view()),
     url(r'^battles/$', views.BattleList.as_view()),
     url(r'^battles/(?P<pk>[0-9]+)/$', views.BattleDetail.as_view()),
     url(r'^battles/random/$', views.BattleRandom.as_view()),
