@@ -1,0 +1,13 @@
+Project is a Rest Api for fight system 
+Implemented are: 
+    heroes/ creating, view list of heroes	
+    heroes/(?P<pk>[0-9]+)/ updating, deleting heroes
+    heroes/ranking/ heroes ranking
+    heroes/deads/ list of deads heroes
+    heroes/kill/(?P<pk>[0-9]+)/ possible kill hero (don't working)
+    battles/$', creating list of battles
+    battles/(?P<pk>[0-9]+)/ updating, deleting battles 
+    battles/random/$', randomize new battle
+
+it can be run by runserver on the localserver or something equivalent on external server
+

@@ -2,8 +2,7 @@ from django.db import models
 from datetime import datetime  
 from django.db.models import Q
 from pygments.lexers import get_lexer_by_name
-from pygments.formatters.html import HtmlFormatter
-from pygments import highlight
+
    
 class Hero(models.Model):
     HEROES_KINDS = (

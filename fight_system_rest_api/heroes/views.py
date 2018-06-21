@@ -52,9 +52,7 @@ class HeroesDeads(generics.ListAPIView):
      
        
 class HeroesKill(APIView):
-    
-    #queryset = Hero.objects.all() 
-    #serializer_class = heroes.serializer.HeroesSerializer    
+      
     
     def update(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -109,11 +107,11 @@ class BattleRandom(APIView):
             return Response( "no more battles possible", status=status.HTTP_400_BAD_REQUEST)
  
     
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = heroes.serializer.UserSerializer
+#class UserList(generics.ListAPIView):
+    #queryset = User.objects.all()
+    #serializer_class = heroes.serializer.UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = heroes.serializer.UserSerializer    
+#class UserDetail(generics.RetrieveAPIView):
+    #queryset = User.objects.all()
+    #serializer_class = heroes.serializer.UserSerializer    
