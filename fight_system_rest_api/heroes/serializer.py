@@ -7,36 +7,36 @@ class HeroesSerializer(serializers.ModelSerializer):
         
     class Meta:
         model = Hero
-        fields = ('id', 'name', 'created', 'kind', 'group', 'breed', 'dead', 'date_of_death')
-        read_only_fields = ('dead', 'date_of_death')
-        
+        fields = ('id', 'name', 'created', 'kind', 
+                  'group', 'breed', 'dead', 'date_of_death',
+                  )
+        read_only_fields = ('dead', 'date_of_death',)
+
+
 class HeroesSerializerShort(serializers.ModelSerializer):
     class Meta:
         model = Hero
-        fields = ('id', 'name', 'created', 'kind', 'group', 'breed' )         
+        fields = ('id', 'name', 'created', 
+                  'kind', 'group', 'breed',
+                  )         
       
 
 class BattleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Battle
-        fields = ('id', 'created', 'fighter1', 'fighter2', 'winner_id' )
-        read_only_fields = ('fighter1', 'fighter2', 'winner_id' )
-         
+        fields = ('id', 'created', 'fighter1', 'fighter2', 'winner_id',)
+        read_only_fields = ('fighter1', 'fighter2', 'winner_id',)
+
+
 class HeroesRankSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroRank
-        fields = ('id', 'hero','name', 'wins', 'defeats') 
+        fields = ('id', 'hero','name', 'wins', 'defeats',) 
+
 
 class DeadHeroesSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeadHero
-        fields = ('hero_id', 'name', 'date_of_death', 'wins') 
-
-
-        
-#class UserSerializer(serializers.ModelSerializer):
-    #heroes = serializers.PrimaryKeyRelatedField(many=True, queryset=Hero.objects.all())
-
-    #class Meta:
-        #model = User
-        #fields = ('id', 'username', 'snippets')        
+        fields = ('hero_id', 'name', 
+                  'date_of_death', 'wins',
+                  ) 

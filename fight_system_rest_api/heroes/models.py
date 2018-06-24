@@ -37,37 +37,64 @@ class Hero(models.Model):
             ('E','Ent'),
             ('T','Treebeard'),    
             ('LI','Lion'),        
-        )       
-    name = models.CharField(max_length=25, blank=True, default='')
+        )   
+            
+    name = models.CharField(max_length=25, 
+                            blank=True,
+                            default=''
+                            )
     created = models.DateTimeField(auto_now_add=True)
-    kind = models.CharField(choices=HEROES_KINDS, default='Big creature', max_length=2)
+    kind = models.CharField(choices=HEROES_KINDS,
+                            default='Big creature',
+                            max_length=2
+                            )
     dead = models.BooleanField(default=False)
-    date_of_death  = models.DateTimeField(auto_now_add=False, null=True)#, blank=True
-    group = models.CharField( choices=HEROES_GROUP, default='Humanoid', max_length=2)
-    breed = models.CharField( choices=HEROES_BREED, default='Human', max_length=2)
+    date_of_death  = models.DateTimeField(auto_now_add=False,
+                                          null=True
+                                          )
+    group = models.CharField(choices=HEROES_GROUP,
+                             default='Humanoid',
+                             max_length=2
+                             )
+    breed = models.CharField(choices=HEROES_BREED,
+                             default='Human',
+                             max_length=2
+                             )
     
-    def kill(self ):
+    def kill(self):
         self.dead = True
         self.date_of_death = datetime.now()
         
-    def get_wins_number(self ):
+    def get_wins_number(self):
         wining_battles = Battle.objects.filter(winner_id = self.id)
         return wining_battles.count()
         
-    def get_defeats_number(self ):
-        losing_battles = Battle.objects.filter( Q( Q(fighter1 = self.id) | Q(fighter2 = self.id)) & ~Q(winner_id=self.id))
+    def get_defeats_number(self):
+        losing_battles = Battle.objects.filter( Q( Q(fighter1 = self.id) | Q(fighter2 = self.id) ) 
+                                                & ~Q(winner_id=self.id))
         return losing_battles.count()
         
     def __str__(self):
         return 'name = %s id = %s' % (self.name, self.id)  
 
+
 class HeroRank(models.Model):
-    hero = models.ForeignKey(Hero, related_name='hero',  null=True, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=25, blank=True, default='')
+    hero = models.ForeignKey(Hero, 
+                             related_name='hero',  
+                             null=True,
+                             on_delete=models.SET_NULL,
+                            )
+    name = models.CharField(max_length=25, 
+                            blank=True, default='',
+                            )
     wins = models.BigIntegerField(default=0)
     defeats = models.BigIntegerField(default=0)
 
-    def initialize(self, hero, name, wins, defeats):
+    def initialize(self,
+                   hero,
+                   name,
+                   wins,
+                   defeats):
         self.hero = hero
         self.name = name
         self.wins = wins
@@ -78,15 +105,27 @@ class HeroRank(models.Model):
     
     class Meta:
         managed = False
-        
+
+
 class DeadHero(models.Model):
-    
-    hero_id = models.ForeignKey(Hero, related_name='hero_id',  null=True, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=25, blank=True, default='')
-    date_of_death  = models.DateTimeField(auto_now_add=False, null=True)
+    hero_id = models.ForeignKey(Hero, 
+                                related_name='hero_id',
+                                null=True,
+                                on_delete=models.SET_NULL,
+                                )
+    name = models.CharField(max_length=25, 
+                            blank=True,
+                            default=''
+                            )
+    date_of_death  = models.DateTimeField(auto_now_add=False,
+                                          null=True)
     wins = models.BigIntegerField(default=0)
     
-    def initialize(self, dead_hero_id, name, date_of_death, wins):
+    def initialize(self, 
+                   dead_hero_id,
+                   name,
+                   date_of_death,
+                   wins):
         self.hero_id = dead_hero_id
         self.name = name
         self.wins = wins
@@ -100,11 +139,19 @@ class DeadHero(models.Model):
     
 
 class Battle(models.Model):
-    
     created = models.DateTimeField(auto_now_add=True)
-    fighter1 = models.ForeignKey(Hero, related_name='fighter1', on_delete=models.CASCADE) 
-    fighter2 = models.ForeignKey(Hero, related_name='fighter2', on_delete=models.CASCADE)
-    winner_id = models.ForeignKey(Hero, related_name='winner', on_delete=models.CASCADE, null=True)
+    fighter1 = models.ForeignKey(Hero, 
+                                 related_name='fighter1',
+                                 on_delete=models.CASCADE,
+                                 ) 
+    fighter2 = models.ForeignKey(Hero, related_name='fighter2',
+                                 on_delete=models.CASCADE
+                                 )
+    winner_id = models.ForeignKey(Hero,
+                                  related_name='winner',
+                                  on_delete=models.CASCADE, 
+                                  null=True
+                                  )
    
     def __str__(self):
         return 'id = %s fighter1 = %s' % (self.id, self.fighter1.name)    
