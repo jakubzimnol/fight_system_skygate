@@ -13,6 +13,7 @@ class BattleService():
     
     @staticmethod
     def get_heroes_ranking(heroes_list):
+        heroes_list = heroes_list.filter(dead =False)
         result = []
         heroes_amount = heroes_list.count()
         for i in range(heroes_amount):
@@ -28,6 +29,7 @@ class BattleService():
 
     @staticmethod    
     def get_dead_heroes(heroes_list):
+        heroes_list = heroes_list.filter(dead=True)
         result = []
         heroes_amount = heroes_list.count()
         for i in range( heroes_amount):
@@ -43,6 +45,7 @@ class BattleService():
 
     @staticmethod
     def random_heroes_for_fight(heroes_list, battles_list):
+        heroes_list = heroes_list.filter(dead=False)
         hero_oponents_list = []
         heroes_amount = heroes_list.count()
         for i in range( heroes_amount):
@@ -55,10 +58,10 @@ class BattleService():
                         heroes_oponents.append(heroes_list[j])
             if len(heroes_oponents)>0:
                 print(len(heroes_oponents))
-                hero_oponents_list.append(heroes_oponents)     
-        n=len(hero_oponents_list)
-        if n>0:
-            random_index = randrange(0,n)
+                hero_oponents_list.append(heroes_oponents)
+        hero_oponents_amount = len(hero_oponents_list)
+        if len(hero_oponents_list)>0:
+            random_index = randrange(0,hero_oponents_amount)
             hero1 = heroes_list[random_index]
             hero2 = choice(hero_oponents_list[random_index] ) 
             result_battle = Battle()
@@ -71,5 +74,3 @@ class BattleService():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("no more battles possible", status=status.HTTP_400_BAD_REQUEST)
-
-

@@ -17,20 +17,22 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from heroes import views
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'heroes', views.HeroesKill)
+router.register(r'battles', views.BattleRandom)
 schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
     url(r'^$', schema_view),
     url(r'^heroes/$', views.HeroesList.as_view()),
-    url(r'^heroes/(?P<pk>[0-9]+)/$', views.HeroesDetail.as_view()),
     url(r'^heroes/ranking/$', views.HeroesRanking.as_view()),
     url(r'^heroes/deads/$', views.HeroesDeads.as_view()),
-    url(r'^heroes/kill/(?P<pk>[0-9]+)/$', views.HeroesKill.as_view()),
     url(r'^battles/$', views.BattleList.as_view()),
     url(r'^battles/(?P<pk>[0-9]+)/$', views.BattleDetail.as_view()),
-    url(r'^battles/random/$', views.BattleRandom.as_view()),
-    
     ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns = format_suffix_patterns(urlpatterns)    
+urlpatterns += router.urls
+
