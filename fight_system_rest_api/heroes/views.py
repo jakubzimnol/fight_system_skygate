@@ -76,8 +76,14 @@ class BattleRandom(viewsets.ViewSet):
         if serializer.is_valid():
             heroes_list = Hero.objects.all()
             battles_list = Battle.objects.all()
-            return BattleService.random_heroes_for_fight(heroes_list, battles_list)
-        else:
+            randomized_battle = BattleService.random_heroes_for_fight(heroes_list, battles_list)
+            serializer = heroes.serializer.BattleSerializer(data=randomized_battle.__dict__)
+            if serializer.is_valid():
+                randomized_battle.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else: 
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)            
         

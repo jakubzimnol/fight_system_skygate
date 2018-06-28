@@ -36,9 +36,9 @@ class BattleService():
             hero_id = heroes_list[i]
             dead_hero=DeadHero()
             dead_hero.initialize(hero_id,
-                                hero_id.name,
-                                hero_id.date_of_death,
-                                hero_id.get_wins_number())
+                                 hero_id.name,
+                                 hero_id.date_of_death,
+                                 hero_id.get_wins_number())
             result.append(dead_hero) 
         result.sort(key=lambda deadhero: DeadHero.wins, reverse=True)
         return result
@@ -67,10 +67,6 @@ class BattleService():
             result_battle = Battle()
             result_battle.fighter1 = hero1
             result_battle.fighter2 = hero2
-            result_battle.save()
-            serializer = heroes.serializer.BattleSerializer(data=result_battle.__dict__)
-            if serializer.is_valid():
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response("no more battles possible", status=status.HTTP_400_BAD_REQUEST)
+            return result_battle
+        else: 
+            return []
