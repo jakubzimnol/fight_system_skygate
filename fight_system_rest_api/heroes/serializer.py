@@ -16,14 +16,16 @@ class HeroesSerializer(serializers.ModelSerializer):
         read_only_fields = ('dead', 'date_of_death',)
 
 
-class HeroesSerializerShort(serializers.ModelSerializer):
+class HeroesReadOnlySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Hero
-        fields = ('id', 'name', 'created', 
-                  'kind', 'group', 'breed',
-                  )         
-      
+        fields = ('id', 'name','created', 'kind', 
+                  'group', 'breed','dead', 'date_of_death',
+                  )       
+        read_only_fields = ('id', 'name','created', 'kind', 
+                            'group', 'breed','dead', 'date_of_death',
+                             )
 
 class BattleSerializer(serializers.ModelSerializer):
     
@@ -31,6 +33,15 @@ class BattleSerializer(serializers.ModelSerializer):
         model = Battle
         fields = ('id', 'created', 'fighter1', 'fighter2', 'winner_id',)
         read_only_fields = ('fighter1', 'fighter2', 'winner_id',)
+
+
+class BattleReadOnlySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Battle
+        fields = ('fighter1', 'fighter2', 'winner_id',)
+        read_only_fields = ('fighter1', 'fighter2', 'winner_id',)
+
 
 
 class HeroesRankSerializer(serializers.ModelSerializer):

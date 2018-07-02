@@ -1,5 +1,3 @@
-from rest_framework import status
-from rest_framework.response import Response
 from django.db.models import Q
 from random import randrange
 from random import choice
@@ -8,6 +6,13 @@ from heroes.models import HeroRank
 from heroes.models import Battle
 from heroes.models import DeadHero
 import heroes.serializer
+
+class EmptyBattle(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
 
 class BattleService():
     
@@ -57,16 +62,16 @@ class BattleService():
                     if (value==0) & (heroes_list[j].kind == heroes_list[i].kind):
                         heroes_oponents.append(heroes_list[j])
             if len(heroes_oponents)>0:
-                print(len(heroes_oponents))
                 hero_oponents_list.append(heroes_oponents)
         hero_oponents_amount = len(hero_oponents_list)
-        if len(hero_oponents_list)>0:
+        if hero_oponents_amount>0:
             random_index = randrange(0,hero_oponents_amount)
             hero1 = heroes_list[random_index]
-            hero2 = choice(hero_oponents_list[random_index] ) 
+            hero2 = choice(hero_oponents_list[random_index]) 
             result_battle = Battle()
             result_battle.fighter1 = hero1
             result_battle.fighter2 = hero2
             return result_battle
         else: 
-            return []
+            raise EmptyBattle('No possible battles to randomize')
+

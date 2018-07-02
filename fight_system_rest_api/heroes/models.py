@@ -3,67 +3,90 @@ from datetime import datetime
 from django.db.models import Q
 from pygments.lexers import get_lexer_by_name
 
-   
+
+class HeroKind(models.Model):
+    name = models.CharField(max_length=25, 
+                            blank=True,
+                            default=''
+                            )
+    def __str__(self):
+        return self.name 
+
+
+class HeroGroup(models.Model):
+    name = models.CharField(max_length=25, 
+                            blank=True,
+                            default=''
+                            )
+    def __str__(self):
+        return self.name 
+
+
+class HeroBreed(models.Model):
+    name = models.CharField(max_length=25, 
+                            blank=True,
+                            default=''
+                            )       
+    def __str__(self):
+        return self.name
+
+
+hero_kind1 = HeroKind(id=1, name = 'Big creature')
+hero_kind1.save()
+hero_kind2 = HeroKind(id=2, name = 'Medium creature')
+hero_kind2.save() 
+hero_kind3 = HeroKind(id=3, name = 'Small creature') 
+hero_kind3.save()
+
+hero_group1 = HeroGroup(id=1, name = 'Humanoid')
+hero_group1.save()
+hero_group2 = HeroGroup(id=2, name = 'Big plant')
+hero_group2.save() 
+hero_group3 = HeroGroup(id=3, name = 'Dragon') 
+hero_group3.save()
+
+hero_breed1 = HeroBreed(id=1, name = 'Human')
+hero_breed1.save()
+hero_breed2 = HeroBreed(id=2, name = 'Asgardian')
+hero_breed2.save() 
+hero_breed3 = HeroBreed(id=3, name = 'Frost Giant') 
+hero_breed3.save() 
+
+
 class Hero(models.Model):
-    HEROES_KINDS = (
-        ('B','Big creature'),
-        ('M','Medium creature'),
-        ('S','Small creature'),
-    )
-    HEROES_GROUP = (
-           ('HU','Humanoid'),
-           ('BP','Big plant'),
-           ('DR','Dragon'),
-           ('R','Rodent'),
-           ('I','Insect'),           
-           ('M','Mamal'),
-           ('R','Reptile'),           
-       ) 
-    HEROES_BREED = (
-            ('HU','Human'),
-            ('AS','Asgardian'),
-            ('FG','Frost Giant'),
-            ('H','Hamser'),
-            ('R','Rat'),
-            ('W','Wasp'),
-            ('A','Ant'),
-            ('M','Mosquito'),   
-            ('C','Crocodile'),
-            ('S','Snake'), 
-            ('D','Dog'),
-            ('C','Cat'),      
-            ('RD','Red dragon'),
-            ('BD','Black dragon'),  
-            ('E','Ent'),
-            ('T','Treebeard'),    
-            ('LI','Lion'),        
-        )   
-            
+   
     name = models.CharField(max_length=25, 
                             blank=True,
                             default=''
                             )
     created = models.DateTimeField(auto_now_add=True)
-    kind = models.CharField(choices=HEROES_KINDS,
-                            default='Big creature',
-                            max_length=2
-                            )
+    kind = models.ForeignKey(HeroKind,
+                             related_name='kind',  
+                             null=True,
+                             on_delete=models.SET_NULL,
+                             )
+    group = models.ForeignKey(HeroGroup,
+                             related_name='group',  
+                             null=True,
+                             on_delete=models.SET_NULL,
+                             )
+    breed = models.ForeignKey(HeroBreed,
+                             related_name='breed',  
+                             null=True,
+                             on_delete=models.SET_NULL,
+                             )
     dead = models.BooleanField(default=False)
     date_of_death  = models.DateTimeField(auto_now_add=False,
                                           null=True
                                           )
-    group = models.CharField(choices=HEROES_GROUP,
-                             default='Humanoid',
-                             max_length=2
-                             )
-    breed = models.CharField(choices=HEROES_BREED,
-                             default='Human',
-                             max_length=2
-                             )
     
     def kill(self):
-        self.dead = True
-        self.date_of_death = datetime.now()
+        if self.dead == False:
+            self.dead = True
+            self.date_of_death = datetime.now()
+            return True
+        else:
+            return False
         
     def get_wins_number(self):
         wining_battles = Battle.objects.filter(winner_id = self.id)

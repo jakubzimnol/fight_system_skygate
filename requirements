@@ -1,5 +1,4 @@
-In project were used 
-python 3.5.2, 
-django-framework 1.11.13, 
-django-rest-framework 3.8.2, 
-Instaled libriaries: django-rest-swagger
+python>=3.5.2, 
+django-framework>=1.11.13, 
+django-rest-framework>=3.8.2, 
+django-rest-swagger

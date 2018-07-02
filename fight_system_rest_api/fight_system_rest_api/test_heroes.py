@@ -26,25 +26,23 @@ class TestHero(TestCase):
     self.assertEqual(self.lion.get_defeats_number(), 0)
 
 
-class TestHeroLogic(TestHero):
+class TestHeroRanking(TestHero):
 
   def test_heroes_ranking(self):
-
-    herorank= HeroRank()
-    herorank.initialize(self.lion,
+    hero_rank= HeroRank()
+    hero_rank.initialize(self.lion,
                         self.lion.name,
                         self.lion.get_wins_number(),
                         self.lion.get_defeats_number()) 
-    herorank2= HeroRank()
-    herorank2.initialize(self.human,
+    hero_rank2= HeroRank()
+    hero_rank2.initialize(self.human,
                          self.human.name,
                          self.human.get_wins_number(),
                          self.human.get_defeats_number())
 
     result = []
-    result.append(herorank)
-    result.append(herorank2)
-
+    result.append(hero_rank)
+    result.append(hero_rank2)
     heroes_testing_rank = BattleService.get_heroes_ranking(Hero.objects.all())
     result = heroes_testing_rank
     self.assertListEqual(heroes_testing_rank, result)
@@ -64,7 +62,6 @@ class TestHeroRandomize(TestHero):
 
   def test_randomize_hero(self):
     randomized_battles = BattleService.random_heroes_for_fight(Hero.objects.all(), Battle.objects.all())
-    print(Hero.objects.all())
     result_battle = Battle()
     result_battle.fighter1 = self.lion
     result_battle.fighter2 = self.human
