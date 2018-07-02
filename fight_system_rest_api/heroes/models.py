@@ -31,28 +31,6 @@ class HeroBreed(models.Model):
         return self.name
 
 
-hero_kind1 = HeroKind(id=1, name = 'Big creature')
-hero_kind1.save()
-hero_kind2 = HeroKind(id=2, name = 'Medium creature')
-hero_kind2.save() 
-hero_kind3 = HeroKind(id=3, name = 'Small creature') 
-hero_kind3.save()
-
-hero_group1 = HeroGroup(id=1, name = 'Humanoid')
-hero_group1.save()
-hero_group2 = HeroGroup(id=2, name = 'Big plant')
-hero_group2.save() 
-hero_group3 = HeroGroup(id=3, name = 'Dragon') 
-hero_group3.save()
-
-hero_breed1 = HeroBreed(id=1, name = 'Human')
-hero_breed1.save()
-hero_breed2 = HeroBreed(id=2, name = 'Asgardian')
-hero_breed2.save() 
-hero_breed3 = HeroBreed(id=3, name = 'Frost Giant') 
-hero_breed3.save() 
-
-
 class Hero(models.Model):
    
     name = models.CharField(max_length=25, 
@@ -167,7 +145,8 @@ class Battle(models.Model):
                                  related_name='fighter1',
                                  on_delete=models.CASCADE,
                                  ) 
-    fighter2 = models.ForeignKey(Hero, related_name='fighter2',
+    fighter2 = models.ForeignKey(Hero,
+                                 related_name='fighter2',
                                  on_delete=models.CASCADE
                                  )
     winner_id = models.ForeignKey(Hero,
